@@ -1,0 +1,23 @@
+{
+  "name": "learn-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bot-ts": "^0.2.1",
+    "discord.js": "^12.5.1",
+    "express": "^4.16.4"
+  }
+}
