@@ -1,12 +1,12 @@
+require('dotenv').config();
 import { getImageUrl } from './helpers';
 const Discord = require("discord.js");
-const config = require('../config.json');
 
 const client = new Discord.Client();
 
-client.login(config.bot_token);
+client.login(process.env.BOT_TOKEN);
 
-const prefix = config.prefix;
+const prefix = process.env.BOT_PREFIX;
 
 client.on('ready', async function() {
   console.log("I'm ready!");
@@ -24,5 +24,5 @@ const sendImg = async () => {
   const url = await getImageUrl();
   const attachment = new Discord.MessageAttachment(url);
 
-  client.channels.resolve(config.channel_ID).send('', attachment);
+  client.channels.resolve(process.env.CHANNEL_ID).send('', attachment);
 }
