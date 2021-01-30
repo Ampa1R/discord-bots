@@ -6,6 +6,7 @@ export default class BotService {
     readonly token = process.env.BOT_TOKEN!;
     readonly channelId = process.env.CHANNEL_ID!;
     readonly prefix = process.env.BOX_PREFIX!;
+    readonly postedMemesPrefix = '_m_';
 
     private client: Discord.Client;
 
@@ -16,24 +17,40 @@ export default class BotService {
 
         this.client.on('ready', async () => {
             console.log('I\'m ready');
-            this.sendImg();
-            setInterval(() => this.sendImg(), 86400000);
+            this.sendMeme();
+            setInterval(() => this.sendMeme(), 86400000);
         });
 
-        this.client.on('message', async function (_message: Discord.Message) {
-            // if (message.author.bot) return;
-            // if (!message.content.startsWith(this.prefix)) return;
-            // message.channel.send('Я НЕ БОТ ТЫ ДОЛБАЕБ!!1')
-        });
+        // this.client.on('message', async (message: Discord.Message) => {
+        //     if (message.author.bot) return;
+        //     if (!message.content.startsWith(this.prefix)) return;
+        //     message.channel.send('Я НЕ БОТ ТЫ ДОЛБАЕБ!!1')
+        // });
     }
 
-    private async sendImg() {
-        const url = await this.memeService.getImageUrl();
-        const attachment = new Discord.MessageAttachment(url);
+    private async sendMeme() {
+        const memeUrl = await this.getUnpostedMeme();
+
+        const attachment = new Discord.MessageAttachment(memeUrl);
 
         const channel = this.client.channels.resolve(this.channelId);
         if (channel instanceof Discord.TextChannel) {
             channel.send('А вот и свежий мем!)', attachment);
+            await this.redisService.set(`${this.postedMemesPrefix}${memeUrl}`, '1');
         }
+    }
+
+    private async getUnpostedMeme(): Promise<string> {
+        const url = await this.memeService.getImageUrl();
+        const isMemePosted = await this.redisService.exists(`${this.postedMemesPrefix}${url}`);
+        
+        // TODO
+        if (isMemePosted) {
+            console.log(`meme ${url} already has been posted`);
+        } else {
+            console.log(`meme ${url} is posted for the first time`);
+        }
+        
+        return url;
     }
 }

@@ -8,10 +8,8 @@ export default class MemeService {
     }
 
     async getImageUrl () {
-        const res = await axios.get(this.API_URL);
-        const dataImgTagIndex = res.data.toString().indexOf('data-img-name');
-        const dataImageTag = res.data.slice(dataImgTagIndex, dataImgTagIndex + 130);
-        const re = new RegExp(/\/img\/memes\/.+\.\w+\?\d/);
-        return `https://dota2.ru/${re.exec(dataImageTag)}`;
+        const { data } = await axios.get(this.API_URL);
+        const re = new RegExp(/img\/memes\/.+\.\w+\?\d/);
+        return `https://dota2.ru/${re.exec(data)}`;
     }
 }
