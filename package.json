@@ -1,11 +1,12 @@
 {
-  "name": "learn-ts",
+  "name": "memechantress",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "nodemon --exec \"npm run build && npm start\""
   },
   "author": "",
   "license": "ISC",
@@ -15,10 +16,13 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
+    "@types/redis": "^2.8.28",
     "axios": "^0.21.1",
     "bot-ts": "^0.2.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "nodemon": "^2.0.7",
+    "redis": "^3.0.2"
   }
 }
