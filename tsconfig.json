@@ -18,7 +18,8 @@
         "resolveJsonModule": true,
         "removeComments": true,
         "strict": true,
-        "declaration": true
+        "declaration": true,
+        "skipLibCheck": true
     },
     "include": [
         "src/*.ts"
