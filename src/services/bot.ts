@@ -36,7 +36,7 @@ export default class BotService {
         const channel = this.client.channels.resolve(this.channelId);
         if (channel instanceof Discord.TextChannel) {
             channel.send('А вот и свежий мем!)', attachment);
-            await this.redisService.set(`${this.postedMemesPrefix}${memeUrl}`, '1');
+            await this.redisService.setWithTtl(`${this.postedMemesPrefix}${memeUrl}`, '1');
         }
     }
 
