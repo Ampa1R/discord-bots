@@ -9,7 +9,6 @@ const init = () => {
   const redisService = new RedisService();
   const memeService = new MemeService();
   new BotService(redisService, memeService);
-  console.log()
 };
 
 init();
