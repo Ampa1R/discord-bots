@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import MemeService from './meme';
 import RedisService from './redis';
+import { generateMemeComment } from '../helpers';
 
 export default class BotService {
     readonly token = process.env.BOT_TOKEN!;
@@ -35,7 +36,7 @@ export default class BotService {
 
         const channel = this.client.channels.resolve(this.channelId);
         if (channel instanceof Discord.TextChannel) {
-            channel.send('А вот и свежий мем!)', attachment);
+            channel.send(generateMemeComment(), attachment);
             await this.redisService.setWithTtl(`${this.postedMemesPrefix}${memeUrl}`, '1');
         }
     }
