@@ -8,6 +8,7 @@ export default class BotService {
     readonly channelId = process.env.CHANNEL_ID!;
     readonly prefix = process.env.BOX_PREFIX!;
     readonly postedMemesPrefix = '_m_';
+    readonly sendingInterval = 3 * 60 * 60 * 1000;
 
     private client: Discord.Client;
 
@@ -19,7 +20,7 @@ export default class BotService {
         this.client.on('ready', async () => {
             console.log("I'm ready!");
             this.sendMeme();
-            setInterval(() => this.sendMeme(), 10800000);
+            setInterval(() => this.sendMeme(), this.sendingInterval);
         });
 
         // this.client.on('message', async (message: Discord.Message) => {
