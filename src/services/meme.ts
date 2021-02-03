@@ -7,9 +7,10 @@ export default class MemeService {
 
     }
 
-    async getImageUrl () {
+    async getMemeUrls(): Promise<string[]> {
         const { data } = await axios.get(this.API_URL);
-        const re = new RegExp(/img\/memes\/.+\.\w+\?\d/);
-        return `https://dota2.ru/${re.exec(data)}`;
+        const re = new RegExp(/img\/memes\/.+\.\w+\?\d/g);
+        const matches = data.match(re);
+        return matches.map((urlPart: String) => `https://dota2.ru/${urlPart}`);
     }
 }
