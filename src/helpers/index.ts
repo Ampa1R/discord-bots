@@ -1,11 +1,14 @@
-import axios from 'axios';
-
-const urlParse = 'https://dota2.ru/memes/best/ajaxList?period=day&category%5B%5D=dota2'
-
-// export const getImageUrl = async () => {
-//     const res = await axios.get(urlParse);
-//     const dataImgTagIndex = res.data.toString().indexOf('data-img-name');
-//     const dataImageTag = res.data.slice(dataImgTagIndex, dataImgTagIndex + 130);
-//     const re = new RegExp(/\/img\/memes\/.+\.\w+\?\d/);
-//     return `https://dota2.ru/${re.exec(dataImageTag)}`;
-// }
+export const generateMemeComment = () => {
+    const phrases = [
+        'А вот и свежий мем!)',
+        'Я нашел для вас лучший мем',
+        'Этот не так хорош, как предыдущий, но тоже не плох))',
+        'Я знаю, вы ждали этого:)',
+        'Вы хорошо себя вели и заслужили еще один мем)',
+        'Сори, но мне показался смешным',
+        'АХАХАХАХХАХАХА',
+        'Чет я уссался с этого!)!))0',
+        // `Ахаха это ж про тебя ${client.guild.members.random()}`,
+    ]
+    return phrases[Math.floor(Math.random() * phrases.length)];
+}
