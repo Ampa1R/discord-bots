@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "tsc",
-    "dev": "REDIS_KEY_PREFIX=_dev_m_ nodemon --exec \"npm run build && npm start\""
+    "dev": "nodemon --exec \"npm run build && npm start\""
   },
   "author": "",
   "license": "ISC",
