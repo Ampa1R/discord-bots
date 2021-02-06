@@ -7,7 +7,7 @@ export default class BotService {
     readonly token = process.env.BOT_TOKEN!;
     readonly channelId = process.env.CHANNEL_ID!;
     readonly prefix = process.env.BOX_PREFIX!;
-    readonly postedMemesPrefix = '_m_';
+    readonly postedMemesPrefix = process.env.REDIS_KEY_PREFIX;
     readonly sendingInterval = 3 * 60 * 60 * 1000;
 
     private client: Discord.Client;
@@ -57,6 +57,7 @@ export default class BotService {
 
     private async isUnpostedMeme(url: string): Promise<boolean> {
         const isPosted = await this.redisService.exists(`${this.postedMemesPrefix}${url}`);
+        this.redisService.get(`${this.postedMemesPrefix}${url}`);
 
         if (isPosted) {
             console.log(`meme ${url} already has been posted`);
