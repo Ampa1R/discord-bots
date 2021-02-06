@@ -57,7 +57,6 @@ export default class BotService {
 
     private async isUnpostedMeme(url: string): Promise<boolean> {
         const isPosted = await this.redisService.exists(`${this.postedMemesPrefix}${url}`);
-        this.redisService.get(`${this.postedMemesPrefix}${url}`);
 
         if (isPosted) {
             console.log(`meme ${url} already has been posted`);
