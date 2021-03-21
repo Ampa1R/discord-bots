@@ -19,7 +19,11 @@
         "removeComments": true,
         "strict": true,
         "declaration": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "types": [
+            "./src/trivia/declarations"
+        ],
+        "experimentalDecorators": true
     },
     "include": [
         "src/*.ts"

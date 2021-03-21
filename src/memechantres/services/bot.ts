@@ -4,10 +4,10 @@ import RedisService from './redis';
 import { generateMemeComment } from '../helpers';
 
 export default class BotService {
-    readonly token = process.env.BOT_TOKEN!;
-    readonly channelId = process.env.CHANNEL_ID!;
-    readonly prefix = process.env.BOX_PREFIX!;
-    readonly postedMemesPrefix = process.env.REDIS_KEY_PREFIX;
+    readonly token = process.env.MEME_TOKEN!;
+    readonly channelId = process.env.MEME_CHANNEL_ID!;
+    readonly prefix = process.env.MEME_PREFIX!;
+    readonly postedMemesPrefix = process.env.REDIS_MEME_PREFIX;
     readonly sendingInterval = 3 * 60 * 60 * 1000;
 
     private client: Discord.Client;
@@ -18,7 +18,7 @@ export default class BotService {
         this.client.login(this.token);
 
         this.client.on('ready', async () => {
-            console.log("I'm ready!");
+            console.log("Memechantress is ready!");
             this.sendMeme();
             setInterval(() => this.sendMeme(), this.sendingInterval);
         });
@@ -41,7 +41,8 @@ export default class BotService {
         const attachment = new Discord.MessageAttachment(memeUrl);
         const channel = this.client.channels.resolve(this.channelId);
         if (channel instanceof Discord.TextChannel) {
-            channel.send(generateMemeComment(), attachment);
+            await channel.send(generateMemeComment(), attachment);
+            // TODO: check result of send
             await this.redisService.setWithTtl(`${this.postedMemesPrefix}${memeUrl}`, '1');
         }
     }
@@ -49,7 +50,7 @@ export default class BotService {
     private async getUnpostedMeme(): Promise<string | undefined> {
         const urls = await this.memeService.getMemeUrls();
 
-        for(let url of urls) {
+        for (let url of urls) {
             if (await this.isUnpostedMeme(url)) return url;
         }
         return undefined;
