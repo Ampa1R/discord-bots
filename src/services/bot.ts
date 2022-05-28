@@ -11,7 +11,7 @@ export default class BotService {
   private readonly postedMemesPrefix = process.env.REDIS_KEY_PREFIX;
   // private readonly prefix = process.env.BOX_PREFIX!;
 
-  private readonly sendingInterval = 1 * 60 * 60 * 1000; // 1h
+  private readonly sendingInterval = 3 * 60 * 60 * 1000; // 3h
   // private readonly sendingInterval = 10 * 1000; // 10 sec
 
   private client: Discord.Client;
