@@ -25,6 +25,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           script: |
             uptime
             mv /home/actions-demo/memechantress /home/apps/memechantress
