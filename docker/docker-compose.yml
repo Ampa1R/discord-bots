@@ -1,0 +1,13 @@
+name: memechantress
+services:
+  bot:
+    container_name: memechantress_bot
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    depends_on:
+      - redis
+
+  redis:
+    container_name: memechantress_redis
+    image: redis:latest
