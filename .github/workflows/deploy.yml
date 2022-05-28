@@ -20,14 +20,13 @@ jobs:
       - name: Copy sources
         run: rsync -avz ./ root@${{ secrets.SSH_HOST }}:/home/actions-demo/memechantress
       - name: run command
-        run: ssh root@${{ secrets.SSH_HOST }} |
-          '
-            ls;
-            ls /home;
-            ls /home/actions-demo;
-            ls /home/actions-demo/memechantress;
+        run: ssh root@${{ secrets.SSH_HOST }} <<'EOT'
+            ls
+            ls /home
+            ls /home/actions-demo
+            ls /home/actions-demo/memechantress
             node -v
-          '
+          EOT
       # - name: build
       #   uses: appleboy/ssh-action@master
       #   with:
