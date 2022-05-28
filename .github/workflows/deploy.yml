@@ -1,9 +1,7 @@
-name: deploy_default
+name: deploy
 
 on:
-  workflow_run:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   deploy:
