@@ -16,26 +16,24 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Add .env.production
-        run: echo -e $APP_ENV >> .env.production
-        env:
-          APP_ENV: ${{ secrets.MEMECHANTRESS_ENV }}
-
       - name: (Debug) List files
         run: ls -a
 
       - name: Copy sources to server
-        run: rsync -avz ./ root@${{ secrets.SSH_HOST }}:/home/actions-demo/memechantress
+        run: rsync -avz ./ root@${{ secrets.SSH_HOST }}:/home/apps/memechantress_fresh
       - name: Build & run application
         run: >-
           ssh root@${{ secrets.SSH_HOST }}
           '
             uptime;
-            rm -rf /home/apps/memechantress;
-            mv /home/actions-demo/memechantress /home/apps/memechantress;
-            cd /home/apps/memechantress/docker;
+            cd /home/apps;
+            rm -rf memechantress_prev;
+            mv memechantress memechantress_prev;
+            mv memechantress_fresh memechantress;
+            cp /home/apps/envs/memechantress.env /home/apps/memechantress/.env.production;
+            cd docker;
+            docker compose build;
             docker compose up -d;
-            docker compose restart memechantress_bot
           '
       # - name: Build app
       #   uses: appleboy/ssh-action@master
