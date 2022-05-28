@@ -1,4 +1,4 @@
-name: deploy memechantress to production
+name: Deploy Production
 
 on:
   workflow_dispatch:
@@ -20,7 +20,14 @@ jobs:
       - name: Copy sources
         run: rsync -avz ./ root@${{ secrets.SSH_HOST }}:/home/actions-demo/memechantress
       - name: run command
-        run: ssh root@${{ secrets.SSH_HOST }} 'ls; ls /home/;'
+        run: ssh root@${{ secrets.SSH_HOST }} |
+          '
+            ls;
+            ls /home;
+            ls /home/actions-demo;
+            ls /home/actions-demo/memechantress;
+            node -v
+          '
       # - name: build
       #   uses: appleboy/ssh-action@master
       #   with:
