@@ -27,7 +27,7 @@ export default class BotService {
     });
 
     this.client.on('ready', () => this.init());
-
+    this.logger.debug('discord bot token', { token: this.token });
     this.client.login(this.token);
     // this.client.on('message', async (message: Discord.Message) => {
     //     if (message.author.bot) return;
