@@ -1,48 +1,38 @@
-import redis, { RedisClient } from 'redis';
+import Redis from 'ioredis';
+import Logger from './logger';
 
 export default class RedisService {
-    readonly HOST: string = process.env.REDIS_HOST!;
-    readonly PASS: string = process.env.REDIS_PASSWORD!;
-    readonly defaultTtl = 60 * 60 * 24 * 30; // month
-    private client: RedisClient;
+  private readonly client: Redis;
+  private readonly logger = new Logger(RedisService.name);
+  private readonly defaultTtl = 7 * 24 * 60 * 60; // week
 
-    constructor() {
-        this.client = redis.createClient(this.HOST, { password: this.PASS });
+  constructor() {
+    const REDIS_URL = process.env.REDIS_URL!;
+    this.client = new Redis(REDIS_URL);
 
-        this.client.on('error', function (error) {
-            console.error('[REDIS ERROR]', error);
-        });
-    }
+    this.client.on('connect', () => {
+      this.logger.info(`Redis connected to ${REDIS_URL}`);
+    });
 
-    public set(key: string, value: string): Promise<void> {
-        return new Promise(res => {
-            this.client.set(key, value, () => {
-                res();
-            });
-        });
-    }
+    this.client.on('error', (error) => {
+      this.logger.error('[REDIS ERROR]', error);
+    });
+  }
 
-    public setWithTtl(key: string, value: string, ttl: number = this.defaultTtl): Promise<void> {
-        return new Promise(res => {
-            this.client.set(key, value, 'EX', ttl, () => {
-                res();
-            });
-        });
-    }
+  public set(key: string, value: string): Promise<'OK'> {
+    return this.client.set(key, value);
+  }
 
-    public get(key: string): Promise<string | null> {
-        return new Promise((res, rej) => {
-            this.client.get(key, (err, value) => {
-                if (err) {
-                    rej(err);
-                }
-                res(value);
-            });
-        });
-    }
+  public setWithTtl(key: string, value: string, ttl: number = this.defaultTtl): Promise<'OK'> {
+    return this.client.set(key, value, 'EX', ttl);
+  }
 
-    public async exists(key: string): Promise<boolean> {
-        const value = await this.get(key);
-        return value !== null;
-    }
+  public get(key: string): Promise<string | null> {
+    return this.client.get(key);
+  }
+
+  public async exists(key: string): Promise<boolean> {
+    const res = await this.client.exists(key);
+    return res === 1;
+  }
 }
