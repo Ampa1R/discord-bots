@@ -16,9 +16,6 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: (Debug) List files
-        run: ls -a
-
       - name: Copy sources to server
         run: rsync -avz ./ root@${{ secrets.SSH_HOST }}:/home/apps/memechantress_fresh
       - name: Build & run application
@@ -35,16 +32,3 @@ jobs:
             docker compose build;
             docker compose up -d;
           '
-      # - name: Build app
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: root
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     port: 22
-      #     script: |
-      #       uptime
-      #       mv /home/actions-demo/memechantress /home/apps/memechantress
-      #       cd /home/apps/memechantress
-      #       docker compose -f docker/docker-compose.yml up -d
-      #       docker compose restart memechantress_bot
