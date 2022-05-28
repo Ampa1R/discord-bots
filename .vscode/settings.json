@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///Users/user/dev/pet/discord-bots/.github/workflows/deploy.yml"
+  }
+}
