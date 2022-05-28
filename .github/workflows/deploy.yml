@@ -30,8 +30,8 @@ jobs:
             rm -rf memechantress_prev;
             mv memechantress memechantress_prev;
             mv memechantress_fresh memechantress;
-            cp /home/apps/envs/memechantress.env /home/apps/memechantress/.env.production;
-            cd docker;
+            cp envs/memechantress.env memechantress/.env.production;
+            cd memechantress/docker;
             docker compose build;
             docker compose up -d;
           '
