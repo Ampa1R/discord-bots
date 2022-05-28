@@ -2,8 +2,6 @@ name: deploy_default
 
 on:
   workflow_run:
-    workflows: ["Deploy"]
-    types: [requested]
     branches:
       - master
 
