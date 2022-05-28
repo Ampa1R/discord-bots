@@ -18,11 +18,11 @@ jobs:
       - name: Add env
         run: ${{ secrets.MEMECHANTRESS_ENV }} > .env.production
       - name: List files
-        run: ls
+        run: ls -a
       - name: Copy sources
         run: rsync -avz ./ root@${{ secrets.SSH_HOST }}:/home/actions-demo/memechantress
       - name: Build app
-        run: ssh root@${{ secrets.SSH_HOST }} 'uptime; rm -rf /home/apps/memechantress; mv /home/actions-demo/memechantress /home/apps/memechantress; cd /home/apps/memechantress; docker compose -f docker/docker-compose.yml up -d; docker compose restart memechantress_bot'
+        run: ssh root@${{ secrets.SSH_HOST }} 'uptime; rm -rf /home/apps/memechantress; mv /home/actions-demo/memechantress /home/apps/memechantress; cd /home/apps/memechantress/docker; docker compose up -d; docker compose restart memechantress_bot'
       # - name: Build app
       #   uses: appleboy/ssh-action@master
       #   with:
