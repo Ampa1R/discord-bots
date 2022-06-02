@@ -28,11 +28,12 @@ export default class BotService {
 
     this.client.on('ready', () => this.init());
     this.client.login(this.token);
-    // this.client.on('message', async (message: Discord.Message) => {
-    //     if (message.author.bot) return;
-    //     if (!message.content.startsWith(this.prefix)) return;
-    //     message.channel.send('Я НЕ БОТ ТЫ ДОЛБАЕБ!!1')
-    // });
+    this.client.on('message', async (message: Discord.Message) => {
+      if (message.author.bot) return;
+      if (message.content === 'бот ты умер?') {
+        message.channel.send('нет меня убило');
+      }
+    });
   }
 
   private init() {
