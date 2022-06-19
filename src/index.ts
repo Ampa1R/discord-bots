@@ -1,3 +1,4 @@
+import cluster from 'cluster';
 import { init } from '3nv';
 init({ modifyProcessEnv: true });
 
@@ -11,4 +12,11 @@ const main = () => {
   new BotService(redisService, memeService);
 };
 
-main();
+if (cluster.isPrimary) {
+  cluster.fork();
+  cluster.on('exit', () => {
+      cluster.fork();
+  });
+} else {
+  main();
+}
