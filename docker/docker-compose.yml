@@ -11,3 +11,5 @@ services:
   redis:
     container_name: memechantress_redis
     image: redis:latest
+    expose:
+      - 6379
