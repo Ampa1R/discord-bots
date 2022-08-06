@@ -17,13 +17,13 @@ jobs:
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Copy sources to server
-        run: rsync -avz ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/apps/memechantress_fresh
+        run: rsync -avz ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ci/apps/memechantress_fresh
       - name: Build & run application
         run: >-
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
           '
             uptime;
-            cd /home/apps;
+            cd /home/ci/apps;
             rm -rf memechantress_prev;
             mv memechantress memechantress_prev;
             mv memechantress_fresh memechantress;
