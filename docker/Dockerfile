@@ -11,4 +11,6 @@ COPY .env.production ./.env
 
 RUN yarn build
 
+EXPOSE 3000
+
 CMD ["yarn", "start:prod"]

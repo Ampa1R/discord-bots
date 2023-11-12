@@ -7,6 +7,8 @@ services:
       dockerfile: ./docker/Dockerfile
     depends_on:
       - redis
+    ports:
+      - "127.0.0.1:${PORT:-9400}:${INTERNAL_METRICS_PORT:-3000}"
 
   redis:
     container_name: memechantress_redis
